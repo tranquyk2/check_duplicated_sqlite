@@ -1,0 +1,339 @@
+﻿namespace Scanner
+{
+    partial class Form1
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            panelMain = new Panel();
+            btnExcel = new Button();
+            btnDelete = new Button();
+            btnAdd = new Button();
+            dataGridView1 = new DataGridView();
+            txtBarcode = new TextBox();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            cbCasx = new ComboBox();
+            dtpDate = new DateTimePicker();
+            btnStatus = new Button();
+            label4 = new Label();
+            label5 = new Label();
+            label3 = new Label();
+            txtSTTscan = new TextBox();
+            label2 = new Label();
+            txtStartscan = new TextBox();
+            label1 = new Label();
+            panelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            SuspendLayout();
+            // 
+            // txtBarcode
+            // 
+            txtBarcode.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBarcode.Location = new Point(27, 74);
+            txtBarcode.Multiline = true;
+            txtBarcode.Name = "txtBarcode";
+            txtBarcode.Size = new Size(625, 64);
+            txtBarcode.TabIndex = 36;
+            // 
+            // panelMain
+            // 
+            panelMain.Controls.Add(btnExcel);
+            panelMain.Controls.Add(btnDelete);
+            panelMain.Controls.Add(btnAdd);
+            panelMain.Controls.Add(dataGridView1);
+            panelMain.Controls.Add(cbCasx);
+            panelMain.Controls.Add(dtpDate);
+            panelMain.Controls.Add(btnStatus);
+            panelMain.Controls.Add(label4);
+            panelMain.Controls.Add(label5);
+            panelMain.Controls.Add(label3);
+            panelMain.Controls.Add(txtSTTscan);
+            panelMain.Controls.Add(label2);
+            panelMain.Controls.Add(txtStartscan);
+            panelMain.Controls.Add(label1);
+            panelMain.Controls.Add(txtBarcode);
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(0, 0);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(1773, 679);
+            panelMain.TabIndex = 0;
+            // 
+            // btnExcel
+            // 
+            btnExcel.BackColor = Color.FromArgb(0, 192, 0);
+            btnExcel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExcel.ForeColor = Color.White;
+            btnExcel.Location = new Point(782, 37);
+            btnExcel.Name = "btnExcel";
+            btnExcel.Size = new Size(111, 103);
+            btnExcel.TabIndex = 50;
+            btnExcel.Text = "EXCEL";
+            btnExcel.UseVisualStyleBackColor = false;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.Red;
+            btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDelete.Location = new Point(658, 92);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(118, 48);
+            btnDelete.TabIndex = 49;
+            btnDelete.Text = "DELETE";
+            btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // btnAdd
+            // 
+            btnAdd.BackColor = Color.FromArgb(255, 255, 192);
+            btnAdd.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAdd.ForeColor = Color.Black;
+            btnAdd.Location = new Point(658, 37);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(118, 54);
+            btnAdd.TabIndex = 48;
+            btnAdd.Text = "ADD MODEL";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += button2_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridView1.ColumnHeadersHeight = 60;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
+            dataGridView1.Location = new Point(12, 223);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.RowTemplate.Height = 40;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(1737, 453);
+            dataGridView1.TabIndex = 47;
+            // 
+            // txtBarcode
+            // 
+            txtBarcode.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtBarcode.Location = new Point(27, 74);
+            txtBarcode.Multiline = true;
+            txtBarcode.Name = "txtBarcode";
+            txtBarcode.Size = new Size(625, 64);
+            txtBarcode.TabIndex = 36;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn1.FillWeight = 5F;
+            dataGridViewTextBoxColumn1.HeaderText = "STT";
+            dataGridViewTextBoxColumn1.MinimumWidth = 40;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn2.FillWeight = 45F;
+            dataGridViewTextBoxColumn2.HeaderText = "Barcode";
+            dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn3.FillWeight = 30F;
+            dataGridViewTextBoxColumn3.HeaderText = "Ngày";
+            dataGridViewTextBoxColumn3.MinimumWidth = 100;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn4.FillWeight = 10F;
+            dataGridViewTextBoxColumn4.HeaderText = "Result";
+            dataGridViewTextBoxColumn4.MinimumWidth = 80;
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewTextBoxColumn5.FillWeight = 10F;
+            dataGridViewTextBoxColumn5.HeaderText = "Ca sản xuất";
+            dataGridViewTextBoxColumn5.MinimumWidth = 80;
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // cbCasx
+            // 
+            cbCasx.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cbCasx.FormattingEnabled = true;
+            cbCasx.Items.AddRange(new object[] { "Ngày", "Đêm" });
+            cbCasx.Location = new Point(783, 181);
+            cbCasx.Name = "cbCasx";
+            cbCasx.Size = new Size(110, 36);
+            cbCasx.TabIndex = 46;
+            // 
+            // dtpDate
+            // 
+            dtpDate.CalendarFont = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dtpDate.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dtpDate.Location = new Point(427, 181);
+            dtpDate.Name = "dtpDate";
+            dtpDate.Size = new Size(250, 34);
+            dtpDate.TabIndex = 45;
+            // 
+            // btnStatus
+            // 
+            btnStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnStatus.BackColor = Color.LimeGreen;
+            btnStatus.Font = new Font("Segoe UI Black", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnStatus.ForeColor = Color.White;
+            btnStatus.Location = new Point(818, 12);
+            btnStatus.Name = "btnStatus";
+            btnStatus.Size = new Size(931, 205);
+            btnStatus.TabIndex = 44;
+            btnStatus.Text = "OK";
+            btnStatus.UseVisualStyleBackColor = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label4.Location = new Point(777, 150);
+            label4.Name = "label4";
+            label4.Size = new Size(125, 28);
+            label4.TabIndex = 43;
+            label4.Text = "Ca Sản Xuất";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label5.Location = new Point(427, 150);
+            label5.Name = "label5";
+            label5.Size = new Size(112, 28);
+            label5.TabIndex = 42;
+            label5.Text = "Ngày Scan";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label3.Location = new Point(216, 150);
+            label3.Name = "label3";
+            label3.Size = new Size(97, 28);
+            label3.TabIndex = 41;
+            label3.Text = "STT Scan";
+            // 
+            // txtSTTscan
+            // 
+            txtSTTscan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSTTscan.Location = new Point(215, 183);
+            txtSTTscan.Name = "txtSTTscan";
+            txtSTTscan.Size = new Size(117, 34);
+            txtSTTscan.TabIndex = 40;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            label2.Location = new Point(26, 150);
+            label2.Name = "label2";
+            label2.Size = new Size(150, 28);
+            label2.TabIndex = 39;
+            label2.Text = "STT Start Scan";
+            // 
+            // txtStartscan
+            // 
+            txtStartscan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtStartscan.Location = new Point(26, 183);
+            txtStartscan.Name = "txtStartscan";
+            txtStartscan.Size = new Size(117, 34);
+            txtStartscan.TabIndex = 38;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(27, 12);
+            label1.Name = "label1";
+            label1.Size = new Size(233, 46);
+            label1.TabIndex = 37;
+            label1.Text = "Scan Barcode";
+            label1.Click += label1_Click_1;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1773, 679);
+            Controls.Add(panelMain);
+            Name = "Form1";
+            Text = "Form1";
+            WindowState = FormWindowState.Maximized;
+            Load += Form1_Load;
+            panelMain.ResumeLayout(false);
+            panelMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private Label label1;
+        private TextBox txtStartscan;
+        private Label label2;
+        private TextBox txtSTTscan;
+        private Label label3;
+        private Label label5;
+        private Label label4;
+        private Button btnStatus;
+        private DateTimePicker dtpDate;
+        private ComboBox cbCasx;
+        private Button btnAdd;
+        private Button btnDelete;
+        private Button btnExcel;
+        private Panel panelMain;
+        private DataGridView dataGridView1;
+        private TextBox txtBarcode;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+    }
+}
+

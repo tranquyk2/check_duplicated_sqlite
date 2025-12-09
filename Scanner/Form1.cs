@@ -1,0 +1,273 @@
+﻿using HidSharp;
+using ClosedXML.Excel;
+
+namespace Scanner
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            // wire events; controls from designer are available after InitializeComponent
+            txtBarcode.KeyDown += TxtBarcode_KeyDown;
+            btnAdd.Click += BtnAdd_Click;
+            btnDelete.Click += BtnDelete_Click;
+            btnExcel.Click += BtnExcel_Click;
+        }
+
+        private void BtnExcel_Click(object? sender, EventArgs e)
+        {
+            using var sfd = new SaveFileDialog();
+            sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx|CSV files (*.csv)|*.csv";
+            sfd.FileName = "scans.xlsx";
+            if (sfd.ShowDialog() != DialogResult.OK) return;
+
+            var file = sfd.FileName;
+            try
+            {
+                if (Path.GetExtension(file).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var wb = new XLWorkbook();
+                    var ws = wb.Worksheets.Add("Scans");
+
+                    // headers
+                    int col = 1;
+                    foreach (DataGridViewColumn c in dataGridView1.Columns)
+                    {
+                        ws.Cell(1, col).Value = c.HeaderText;
+                        ws.Cell(1, col).Style.Font.Bold = true;
+                        col++;
+                    }
+
+                    // rows
+                    int row = 2;
+                    foreach (DataGridViewRow r in dataGridView1.Rows)
+                    {
+                        for (int cidx = 0; cidx < dataGridView1.Columns.Count; cidx++)
+                        {
+                            var v = r.Cells[cidx].Value;
+                            ws.Cell(row, cidx + 1).Value = v?.ToString() ?? string.Empty;
+                        }
+                        row++;
+                    }
+
+                    // adjust columns
+                    ws.Columns().AdjustToContents();
+
+                    wb.SaveAs(file);
+                }
+                else
+                {
+                    // fallback CSV
+                    var sb = new System.Text.StringBuilder();
+                    var headers = new List<string>();
+                    foreach (DataGridViewColumn col in dataGridView1.Columns)
+                    {
+                        headers.Add(EscapeCsv(col.HeaderText));
+                    }
+                    sb.AppendLine(string.Join(",", headers));
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        var cells = new List<string>();
+                        for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                        {
+                            var val = row.Cells[i].Value;
+                            cells.Add(EscapeCsv(val?.ToString() ?? string.Empty));
+                        }
+                        sb.AppendLine(string.Join(",", cells));
+                    }
+                    var bytes = System.Text.Encoding.UTF8.GetPreamble().Concat(System.Text.Encoding.UTF8.GetBytes(sb.ToString())).ToArray();
+                    File.WriteAllBytes(file, bytes);
+                }
+
+                MessageBox.Show("Xuất file thành công.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xuất file: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static string EscapeCsv(string s)
+        {
+            if (s == null) return string.Empty;
+            // double quotes and wrap in quotes if contains comma, quote, or newline
+            if (s.Contains('"')) s = s.Replace("\"", "\"\"");
+            if (s.Contains(',') || s.Contains('"') || s.Contains('\n') || s.Contains('\r'))
+            {
+                return '"' + s + '"';
+            }
+            return s;
+        }
+
+        private void BtnDelete_Click(object? sender, EventArgs e)
+        {
+            // remove selected row
+            if (dataGridView1.SelectedRows.Count == 0) return;
+            foreach (DataGridViewRow r in dataGridView1.SelectedRows)
+            {
+                if (r.Cells[1].Value is string barcode)
+                {
+                    // optionally unmark scanned
+                }
+                dataGridView1.Rows.Remove(r);
+            }
+
+            // update txtSTTscan after deletions
+            txtSTTscan.Text = dataGridView1.Rows.Count.ToString();
+        }
+
+        private void BtnAdd_Click(object? sender, EventArgs e)
+        {
+            // open model manager form
+            using var f = new Form2();
+            f.ShowDialog();
+            // ensure models from Form2 are available (Form2 adds to ModelStore)
+        }
+
+        private void TxtBarcode_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                // Require STT start to be filled and valid before scanning
+                if (!int.TryParse(txtStartscan.Text, out var start))
+                {
+                    MessageBox.Show("Vui lòng nhập STT Start Scan (số nguyên).", "Thiếu STT Start", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtStartscan.Focus();
+                    return;
+                }
+
+                ProcessScannedBarcode(txtBarcode.Text);
+            }
+        }
+
+        private void ProcessScannedBarcode(string barcode)
+        {
+            if (string.IsNullOrWhiteSpace(barcode)) return;
+            barcode = barcode.Trim();
+
+            // determine STT start
+            int start = 1;
+            if (!string.IsNullOrWhiteSpace(txtStartscan.Text) && int.TryParse(txtStartscan.Text, out var s)) start = s;
+
+            // compute STT for this new row: start + current number of rows
+            int stt = start + dataGridView1.Rows.Count;
+
+            // normalize for grid comparison
+            var lookup = barcode.ToUpperInvariant();
+
+            // try to find existing row in grid (column 1 is Barcode)
+            DataGridViewRow? existingRow = null;
+            foreach (DataGridViewRow r in dataGridView1.Rows)
+            {
+                if (r.Cells.Count > 1 && r.Cells[1].Value is string v)
+                {
+                    if (v.Trim().ToUpperInvariant() == lookup)
+                    {
+                        existingRow = r;
+                        break;
+                    }
+                }
+            }
+
+            string resultText;
+            Color backColor;
+
+            // first, check model match
+            if (ModelStore.TryMatchModel(barcode, out var model))
+            {
+                // if already scanned (ModelStore) or found in grid, treat as duplicate
+                if (ModelStore.IsBarcodeScanned(barcode) || existingRow != null)
+                {
+                    resultText = "Trùng barcode";
+                    backColor = Color.Gold;
+                    // still add a row showing the duplicate status
+
+                    // trigger Patlite alert asynchronously for duplicates
+                    _ = Patlite.AlertDuplicateAsync();
+                }
+                else
+                {
+                    // new valid barcode
+                    resultText = "OK";
+                    backColor = Color.LimeGreen;
+                    ModelStore.MarkScanned(barcode);
+                }
+            }
+            else
+            {
+                resultText = "Sai model";
+                backColor = Color.Red;
+                // still add to grid to show invalid scans
+            }
+
+            // update status button
+            btnStatus.Text = resultText;
+            btnStatus.BackColor = backColor;
+            btnStatus.ForeColor = Color.White;
+
+            // if an existing row exists, optionally highlight it (but do not change its Result cell)
+            if (existingRow != null)
+            {
+                dataGridView1.ClearSelection();
+                existingRow.Selected = true;
+                try { dataGridView1.FirstDisplayedScrollingRowIndex = existingRow.Index; } catch { }
+            }
+
+            var ngay = dtpDate.Value.ToString("g");
+            var ca = cbCasx.SelectedItem?.ToString() ?? string.Empty;
+
+            dataGridView1.Rows.Add(stt.ToString(), barcode, ngay, resultText, ca);
+
+            // update txtSTTscan to show how many rows currently in the grid
+            txtSTTscan.Text = dataGridView1.Rows.Count.ToString();
+
+            // focus back to input
+            txtBarcode.Clear();
+            txtBarcode.Focus();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // initialize txtSTTscan to current rows count
+            txtSTTscan.Text = dataGridView1.Rows.Count.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
