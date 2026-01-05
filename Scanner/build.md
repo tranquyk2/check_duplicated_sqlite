@@ -1,0 +1,1 @@
+dotnet publish Scanner/Scanner.csproj -c Release -r win-x64 --self-contained true -o "C:\Users\quyqu\OneDrive\Máy tính\check-duplicate"

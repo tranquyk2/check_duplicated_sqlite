@@ -47,9 +47,10 @@
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(159, 37);
             label1.Name = "label1";
-            label1.Size = new Size(209, 31);
+            label1.Size = new Size(218, 31);
             label1.TabIndex = 0;
-            label1.Text = "ADD NEW MODEL";
+            label1.Text = "THÊM MODEL MỚI";
+            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -77,6 +78,7 @@
             txtNamemodel.Name = "txtNamemodel";
             txtNamemodel.Size = new Size(357, 27);
             txtNamemodel.TabIndex = 3;
+            txtNamemodel.TextChanged += txtNamemodel_TextChanged;
             // 
             // txtBarcodemodel
             // 
@@ -93,7 +95,7 @@
             button1.Name = "button1";
             button1.Size = new Size(93, 43);
             button1.TabIndex = 5;
-            button1.Text = "ADD";
+            button1.Text = "THÊM";
             button1.UseVisualStyleBackColor = false;
             // 
             // listView1
@@ -126,7 +128,7 @@
             button2.Name = "button2";
             button2.Size = new Size(93, 43);
             button2.TabIndex = 7;
-            button2.Text = "EDIT";
+            button2.Text = "SỬA";
             button2.UseVisualStyleBackColor = false;
             // 
             // button3
@@ -137,7 +139,7 @@
             button3.Name = "button3";
             button3.Size = new Size(93, 43);
             button3.TabIndex = 8;
-            button3.Text = "DELETE";
+            button3.Text = "XÓA";
             button3.UseVisualStyleBackColor = false;
             // 
             // Form2

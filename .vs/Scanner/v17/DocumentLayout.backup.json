@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\modelstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\modelstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\modelstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\modelstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|c:\\users\\quyqu\\onedrive\\m\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\model.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,10 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{D178032D-0E95-4921-BA06-C07657CAFCD0}|Scanner\\Scanner.csproj|solutionrelative:scanner\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,11 +38,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form1.cs",
               "RelativeDocumentMoniker": "Scanner\\Form1.cs",
@@ -50,32 +50,30 @@
               "RelativeToolTip": "Scanner\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T08:29:35.044Z",
-              "IsPinned": true,
-              "EditorCaption": " [Design]"
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form1.cs",
               "RelativeDocumentMoniker": "Scanner\\Form1.cs",
               "ToolTip": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form1.cs",
               "RelativeToolTip": "Scanner\\Form1.cs",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAgwG4AAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAALwBAAAAAAAAAAAqwMEBAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T08:30:02.074Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "Scanner\\Form1.Designer.cs",
               "ToolTip": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form1.Designer.cs",
               "RelativeToolTip": "Scanner\\Form1.Designer.cs",
-              "ViewState": "AgIAAHsBAAAAAAAAAAAQwBYAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAIMBAAAAAAAAAAAQwAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-10T08:13:26.25Z",
               "IsPinned": true
@@ -86,19 +84,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "ModelStore.cs",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\ModelStore.cs",
               "RelativeDocumentMoniker": "Scanner\\ModelStore.cs",
               "ToolTip": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\ModelStore.cs",
               "RelativeToolTip": "Scanner\\ModelStore.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-11T07:37:43.875Z"
+              "WhenOpened": "2025-12-11T07:37:43.875Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Model.cs",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Model.cs",
               "RelativeDocumentMoniker": "Scanner\\Model.cs",
@@ -110,7 +109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Form2.Designer.cs",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form2.Designer.cs",
               "RelativeDocumentMoniker": "Scanner\\Form2.Designer.cs",
@@ -130,7 +129,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Form2.cs [Design]",
               "DocumentMoniker": "C:\\Users\\quyqu\\OneDrive\\M\u00E1y t\u00EDnh\\check_duplicate_barcode\\Scanner\\Form2.cs",
               "RelativeDocumentMoniker": "Scanner\\Form2.cs",

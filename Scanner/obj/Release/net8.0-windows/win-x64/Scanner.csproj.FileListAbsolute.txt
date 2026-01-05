@@ -260,7 +260,6 @@ c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\n
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\hostfxr.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\hostpolicy.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\mscordaccore.dll
-c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\mscordaccore_amd64_amd64_8.0.1925.36514.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\mscordbi.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\mscorrc.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\msquic.dll
@@ -490,3 +489,4 @@ c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\n
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\zh-Hant\UIAutomationTypes.resources.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\zh-Hant\WindowsBase.resources.dll
 c:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\zh-Hant\WindowsFormsIntegration.resources.dll
+C:\Users\quyqu\OneDrive\Máy tính\check_duplicate_barcode\Scanner\bin\Release\net8.0-windows\win-x64\mscordaccore_amd64_amd64_8.0.2225.52707.dll

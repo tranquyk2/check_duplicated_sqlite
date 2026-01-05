@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Publish self-contained Scanner app",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"publish",
+				"Scanner/Scanner.csproj",
+				"-c",
+				"Release",
+				"-r",
+				"win-x64",
+				"--self-contained",
+				"true",
+				"-o",
+				"C:\\Users\\quyqu\\OneDrive\\Máy tính\\check-duplicate"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

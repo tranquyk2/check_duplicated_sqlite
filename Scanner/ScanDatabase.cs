@@ -7,6 +7,162 @@ namespace Scanner
 {
     public static class ScanDatabase
     {
+        /// <summary>
+        /// Lấy các bản ghi chưa gửi lên server
+        /// </summary>
+        public static List<ScanRecord> GetUnsentScans(int limit = 1000)
+        {
+            var records = new List<ScanRecord>();
+            try
+            {
+                using var connection = new SqliteConnection(ConnectionString);
+                connection.Open();
+                var selectCmd = connection.CreateCommand();
+                selectCmd.CommandText = @"
+                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca, IsSent
+                    FROM ScanRecords
+                    WHERE IsSent = 0
+                    ORDER BY Id ASC
+                    LIMIT @limit
+                ";
+                selectCmd.Parameters.AddWithValue("@limit", limit);
+                using var reader = selectCmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    records.Add(new ScanRecord
+                    {
+                        Id = reader.GetInt32(0),
+                        STT = reader.GetInt32(1),
+                        Barcode = reader.GetString(2),
+                        NgayGio = reader.GetString(3),
+                        KetQua = reader.GetString(4),
+                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                        IsSent = reader.IsDBNull(6) ? 0 : reader.GetInt32(6)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetUnsentScans error: {ex.Message}");
+            }
+            return records;
+        }
+
+        /// <summary>
+        /// Đánh dấu các bản ghi đã gửi lên server
+        /// </summary>
+        public static void MarkScansAsSent(List<int> ids)
+        {
+            if (ids == null || ids.Count == 0) return;
+            try
+            {
+                using var connection = new SqliteConnection(ConnectionString);
+                connection.Open();
+                var updateCmd = connection.CreateCommand();
+                updateCmd.CommandText = $@"
+                    UPDATE ScanRecords SET IsSent = 1 WHERE Id IN ({string.Join(",", ids)})
+                ";
+                updateCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"MarkScansAsSent error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Đếm số lượng bản ghi chưa gửi
+        /// </summary>
+        public static int GetUnsentCount()
+        {
+            try
+            {
+                using var connection = new SqliteConnection(ConnectionString);
+                connection.Open();
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT COUNT(*) FROM ScanRecords WHERE IsSent = 0";
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt32(result) : 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"GetUnsentCount error: {ex.Message}");
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Đặt tất cả bản ghi là chưa gửi (để gửi lại toàn bộ dữ liệu)
+        /// </summary>
+        public static void ResetAllRecordsToUnsent()
+        {
+            try
+            {
+                using var connection = new SqliteConnection(ConnectionString);
+                connection.Open();
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "UPDATE ScanRecords SET IsSent = 0";
+                cmd.ExecuteNonQuery();
+                System.Diagnostics.Debug.WriteLine("Đã reset tất cả bản ghi về trạng thái chưa gửi.");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"ResetAllRecordsToUnsent error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Đảm bảo tất cả bản ghi cũ có giá trị IsSent = 0
+        /// </summary>
+        public static void EnsureOldRecordsMarkedAsUnsent()
+        {
+            try
+            {
+                using var connection = new SqliteConnection(ConnectionString);
+                connection.Open();
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "UPDATE ScanRecords SET IsSent = 0 WHERE IsSent IS NULL";
+                var updated = cmd.ExecuteNonQuery();
+                if (updated > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Đã đánh dấu {updated} bản ghi cũ là chưa gửi.");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"EnsureOldRecordsMarkedAsUnsent error: {ex.Message}");
+            }
+        }
+        /// <summary>
+        /// Gửi các bản ghi quét lên server qua HTTP POST (API server viết sau)
+        /// </summary>
+        /// <param name="serverUrl">Địa chỉ API server nhận dữ liệu</param>
+        /// <param name="limit">Số lượng bản ghi gửi (mặc định 1000)</param>
+        /// <returns>True nếu gửi thành công, False nếu lỗi</returns>
+        public static async System.Threading.Tasks.Task<bool> SendScansToServerAsync(string serverUrl, int limit = 1000)
+        {
+            try
+            {
+                var records = GetUnsentScans(limit);
+                if (records.Count == 0) return true; // Không có bản ghi nào để gửi
+                var json = System.Text.Json.JsonSerializer.Serialize(records);
+                using var client = new System.Net.Http.HttpClient();
+                var content = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(serverUrl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    // Đánh dấu các bản ghi đã gửi
+                    MarkScansAsSent(records.ConvertAll(r => r.Id));
+                }
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"SendScansToServerAsync error: {ex.Message}");
+                return false;
+            }
+        }
+
         private static readonly string DatabaseFolder;
         private static readonly string DatabasePath;
         private static readonly string ConnectionString;
@@ -18,6 +174,7 @@ namespace Scanner
             ConnectionString = $"Data Source={DatabasePath}";
 
             InitializeDatabase();
+            EnsureOldRecordsMarkedAsUnsent();
         }
 
         private static void InitializeDatabase()
@@ -41,17 +198,48 @@ namespace Scanner
                         NgayGio TEXT NOT NULL,
                         KetQua TEXT NOT NULL,
                         Ca TEXT,
-                        ScanTime DATETIME DEFAULT CURRENT_TIMESTAMP
+                        IsSent INTEGER DEFAULT 0
                     );
-                    
                     CREATE INDEX IF NOT EXISTS idx_barcode ON ScanRecords(Barcode);
-                    CREATE INDEX IF NOT EXISTS idx_scantime ON ScanRecords(ScanTime);
+                    CREATE INDEX IF NOT EXISTS idx_ngaygio ON ScanRecords(NgayGio);
                 ";
                 createTableCmd.ExecuteNonQuery();
+
+                // Migration: Thêm trường IsSent vào database cũ nếu chưa có
+                try
+                {
+                    var checkColumnCmd = connection.CreateCommand();
+                    checkColumnCmd.CommandText = "PRAGMA table_info(ScanRecords)";
+                    bool hasIsSentColumn = false;
+                    
+                    using (var reader = checkColumnCmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var columnName = reader.GetString(1);
+                            if (columnName == "IsSent")
+                            {
+                                hasIsSentColumn = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!hasIsSentColumn)
+                    {
+                        var alterTableCmd = connection.CreateCommand();
+                        alterTableCmd.CommandText = "ALTER TABLE ScanRecords ADD COLUMN IsSent INTEGER DEFAULT 0";
+                        alterTableCmd.ExecuteNonQuery();
+                        System.Diagnostics.Debug.WriteLine("Đã thêm trường IsSent vào database.");
+                    }
+                }
+                catch (Exception migrationEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Migration error: {migrationEx.Message}");
+                }
             }
             catch (Exception ex)
             {
-                // Log error but don't crash the app
                 System.Diagnostics.Debug.WriteLine($"Database initialization error: {ex.Message}");
             }
         }
@@ -93,7 +281,7 @@ namespace Scanner
 
                 var selectCmd = connection.CreateCommand();
                 selectCmd.CommandText = @"
-                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca, ScanTime
+                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca
                     FROM ScanRecords
                     ORDER BY Id DESC
                     LIMIT @limit
@@ -110,8 +298,7 @@ namespace Scanner
                         Barcode = reader.GetString(2),
                         NgayGio = reader.GetString(3),
                         KetQua = reader.GetString(4),
-                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                        ScanTime = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6)
+                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5)
                     });
                 }
             }
@@ -132,16 +319,29 @@ namespace Scanner
                 using var connection = new SqliteConnection(ConnectionString);
                 connection.Open();
 
+                // Tạo pattern tìm kiếm cho định dạng dd/MM/yyyy
+                var patterns = new List<string>();
+                for (var date = fromDate.Date; date <= toDate.Date; date = date.AddDays(1))
+                {
+                    patterns.Add($"{date:dd/MM/yyyy}%");
+                }
+
                 var selectCmd = connection.CreateCommand();
-                selectCmd.CommandText = @"
-                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca, ScanTime
+                // Tạo query với multiple LIKE conditions
+                var likeConditions = string.Join(" OR ", patterns.Select((_, i) => $"NgayGio LIKE @pattern{i}"));
+                
+                selectCmd.CommandText = $@"
+                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca
                     FROM ScanRecords
-                    WHERE DATE(ScanTime) BETWEEN DATE(@fromDate) AND DATE(@toDate)
+                    WHERE {likeConditions}
                     ORDER BY Id DESC
                     LIMIT @limit
                 ";
-                selectCmd.Parameters.AddWithValue("@fromDate", fromDate.ToString("yyyy-MM-dd"));
-                selectCmd.Parameters.AddWithValue("@toDate", toDate.ToString("yyyy-MM-dd"));
+                
+                for (int i = 0; i < patterns.Count; i++)
+                {
+                    selectCmd.Parameters.AddWithValue($"@pattern{i}", patterns[i]);
+                }
                 selectCmd.Parameters.AddWithValue("@limit", limit);
 
                 using var reader = selectCmd.ExecuteReader();
@@ -154,8 +354,7 @@ namespace Scanner
                         Barcode = reader.GetString(2),
                         NgayGio = reader.GetString(3),
                         KetQua = reader.GetString(4),
-                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                        ScanTime = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6)
+                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5)
                     });
                 }
             }
@@ -253,10 +452,10 @@ namespace Scanner
 
                 var selectCmd = connection.CreateCommand();
                 selectCmd.CommandText = @"
-                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca, ScanTime
+                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca
                     FROM ScanRecords
                     WHERE Barcode LIKE @searchText
-                    ORDER BY ScanTime DESC
+                    ORDER BY NgayGio DESC
                     LIMIT @limit
                 ";
                 selectCmd.Parameters.AddWithValue("@searchText", $"%{searchText}%");
@@ -272,8 +471,7 @@ namespace Scanner
                         Barcode = reader.GetString(2),
                         NgayGio = reader.GetString(3),
                         KetQua = reader.GetString(4),
-                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                        ScanTime = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6)
+                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5)
                     });
                 }
             }
@@ -295,16 +493,17 @@ namespace Scanner
                 connection.Open();
 
                 var selectCmd = connection.CreateCommand();
+                // Lọc theo định dạng dd/MM/yyyy (VN format)
+                // Pattern: __/01/2026 cho tháng 1 năm 2026
                 selectCmd.CommandText = @"
-                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca, ScanTime
+                    SELECT Id, STT, Barcode, NgayGio, KetQua, Ca
                     FROM ScanRecords
-                    WHERE strftime('%Y', ScanTime) = @year
-                    AND strftime('%m', ScanTime) = @month
-                    ORDER BY ScanTime DESC
+                    WHERE NgayGio LIKE @pattern
+                    ORDER BY Id DESC
                     LIMIT @limit
                 ";
-                selectCmd.Parameters.AddWithValue("@year", year.ToString("0000"));
-                selectCmd.Parameters.AddWithValue("@month", month.ToString("00"));
+                var pattern = $"%/{month:00}/{year}%";
+                selectCmd.Parameters.AddWithValue("@pattern", pattern);
                 selectCmd.Parameters.AddWithValue("@limit", limit);
 
                 using var reader = selectCmd.ExecuteReader();
@@ -317,8 +516,7 @@ namespace Scanner
                         Barcode = reader.GetString(2),
                         NgayGio = reader.GetString(3),
                         KetQua = reader.GetString(4),
-                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                        ScanTime = reader.IsDBNull(6) ? DateTime.MinValue : reader.GetDateTime(6)
+                        Ca = reader.IsDBNull(5) ? string.Empty : reader.GetString(5)
                     });
                 }
             }
@@ -339,6 +537,6 @@ namespace Scanner
         public string NgayGio { get; set; } = string.Empty;
         public string KetQua { get; set; } = string.Empty;
         public string Ca { get; set; } = string.Empty;
-        public DateTime ScanTime { get; set; }
+        public int IsSent { get; set; } // 0: chưa gửi, 1: đã gửi
     }
 }

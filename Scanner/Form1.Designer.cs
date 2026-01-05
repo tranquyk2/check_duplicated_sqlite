@@ -2,35 +2,31 @@
 {
     partial class Form1
     {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
                 components.Dispose();
             }
+            if (disposing)
+            {
+                syncTimer?.Stop();
+                syncTimer?.Dispose();
+            }
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
+
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            TextBox txtBarcode;
             panelMain = new Panel();
             btnDelete = new Button();
             btnAdd = new Button();
@@ -96,7 +92,7 @@
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(118, 48);
             btnDelete.TabIndex = 49;
-            btnDelete.Text = "DELETE";
+            btnDelete.Text = "XÓA";
             btnDelete.UseVisualStyleBackColor = false;
             // 
             // btnAdd
@@ -108,7 +104,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(118, 54);
             btnAdd.TabIndex = 48;
-            btnAdd.Text = "ADD MODEL";
+            btnAdd.Text = "THÊM MODEL";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += button2_Click;
             // 
@@ -129,7 +125,7 @@
             txtSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtSearch.Location = new Point(26, 231);
             txtSearch.Name = "txtSearch";
-            txtSearch.PlaceholderText = "Nhập barcode cần tìm...";
+            txtSearch.PlaceholderText = "Search Barcode";
             txtSearch.Size = new Size(300, 34);
             txtSearch.TabIndex = 52;
             // 
@@ -266,9 +262,9 @@
             btnStatus.BackColor = Color.LimeGreen;
             btnStatus.Font = new Font("Segoe UI Black", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnStatus.ForeColor = Color.White;
-            btnStatus.Location = new Point(987, 12);
+            btnStatus.Location = new Point(949, 12);
             btnStatus.Name = "btnStatus";
-            btnStatus.Size = new Size(762, 253);
+            btnStatus.Size = new Size(800, 253);
             btnStatus.TabIndex = 44;
             btnStatus.Text = "OK";
             btnStatus.UseVisualStyleBackColor = false;

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
 
 namespace Scanner
@@ -25,10 +23,8 @@ namespace Scanner
         {
             var n = name?.Trim() ?? string.Empty;
             var b = barcode?.Trim() ?? string.Empty;
-            // prefer barcode as identifier if provided
             var id = !string.IsNullOrEmpty(b) ? b : n;
             if (string.IsNullOrEmpty(id)) return;
-            // avoid duplicates by barcode if provided, otherwise by name
             if (!string.IsNullOrEmpty(b))
             {
                 if (_models.Exists(m => !string.IsNullOrEmpty(m.Barcode) && m.Barcode == b)) return;
@@ -87,7 +83,6 @@ namespace Scanner
             return removed;
         }
 
-        // Update model given an identifier (oldModel) and new name + barcode
         public static bool UpdateModel(string oldModelIdentifier, string newName, string newBarcode)
         {
             if (string.IsNullOrWhiteSpace(oldModelIdentifier)) return false;
@@ -98,12 +93,9 @@ namespace Scanner
             var n = newName?.Trim();
             var b = newBarcode?.Trim();
 
-            // if newName is null or empty, keep existing
             if (string.IsNullOrEmpty(n)) n = _models[idx].Name;
-            // if newBarcode is null or empty, keep existing
             if (string.IsNullOrEmpty(b)) b = _models[idx].Barcode;
 
-            // check duplicates: if new barcode provided and used by another model -> fail
             if (!string.IsNullOrEmpty(b))
             {
                 var conflict = _models.FindIndex((m) => !string.IsNullOrEmpty(m.Barcode) && m.Barcode == b);
@@ -111,7 +103,6 @@ namespace Scanner
             }
             else
             {
-                // if no barcode provided, ensure no other unnamed model with same name
                 var conflict = _models.FindIndex((m) => string.IsNullOrEmpty(m.Barcode) && m.Name == n);
                 if (conflict != -1 && conflict != idx) return false;
             }
@@ -134,7 +125,7 @@ namespace Scanner
             }
             catch
             {
-                // ignore failures to save to avoid crashing UI; consider logging
+
             }
         }
 
@@ -145,7 +136,6 @@ namespace Scanner
                 if (!File.Exists(ModelsFilePath)) return;
                 var json = File.ReadAllText(ModelsFilePath);
 
-                // Try to deserialize into the new format (List<Model>) first
                 try
                 {
                     var list = JsonSerializer.Deserialize<List<Model>>(json);
@@ -161,10 +151,9 @@ namespace Scanner
                 }
                 catch
                 {
-                    // ignore and try legacy format
+
                 }
 
-                // Legacy format: json may be array of strings (model identifiers). Convert to Model objects with Barcode filled and empty Name.
                 try
                 {
                     var list2 = JsonSerializer.Deserialize<List<string>>(json);
@@ -175,17 +164,17 @@ namespace Scanner
                         {
                             if (!string.IsNullOrWhiteSpace(s)) _models.Add(new Model { Name = string.Empty, Barcode = s.Trim() });
                         }
-                        SaveModels(); // migrate file to new structure
+                        SaveModels();
                     }
                 }
                 catch
                 {
-                    // ignore
+
                 }
             }
             catch
             {
-                // ignore load errors; start with empty list
+
             }
         }
     }

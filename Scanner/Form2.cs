@@ -15,7 +15,6 @@ namespace Scanner
         public Form2()
         {
             InitializeComponent();
-            // wire up events
             button1.Click += Button1_Click;
             listView1.DoubleClick += ListView1_DoubleClick;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
@@ -110,7 +109,6 @@ namespace Scanner
             var selected = listView1.SelectedItems[0];
             string oldModelIdentifier = !string.IsNullOrEmpty(selected.SubItems[1].Text) ? selected.SubItems[1].Text : selected.Text;
 
-            // Use selected item's values as defaults if textbox fields are empty
             string currentName = selected.Text;
             string currentBarcode = selected.SubItems.Count > 1 ? selected.SubItems[1].Text : string.Empty;
 
@@ -160,6 +158,16 @@ namespace Scanner
                     MessageBox.Show("Xóa thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNamemodel_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
