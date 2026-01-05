@@ -7,9 +7,7 @@ namespace Scanner
 {
     public static class ScanDatabase
     {
-        /// <summary>
-        /// Lấy các bản ghi chưa gửi lên server
-        /// </summary>
+        
         public static List<ScanRecord> GetUnsentScans(int limit = 1000)
         {
             var records = new List<ScanRecord>();
@@ -48,9 +46,7 @@ namespace Scanner
             return records;
         }
 
-        /// <summary>
-        /// Đánh dấu các bản ghi đã gửi lên server
-        /// </summary>
+        
         public static void MarkScansAsSent(List<int> ids)
         {
             if (ids == null || ids.Count == 0) return;
@@ -70,9 +66,7 @@ namespace Scanner
             }
         }
 
-        /// <summary>
-        /// Đếm số lượng bản ghi chưa gửi
-        /// </summary>
+        
         public static int GetUnsentCount()
         {
             try
@@ -91,9 +85,7 @@ namespace Scanner
             }
         }
 
-        /// <summary>
-        /// Đặt tất cả bản ghi là chưa gửi (để gửi lại toàn bộ dữ liệu)
-        /// </summary>
+        
         public static void ResetAllRecordsToUnsent()
         {
             try
@@ -111,9 +103,7 @@ namespace Scanner
             }
         }
 
-        /// <summary>
-        /// Đảm bảo tất cả bản ghi cũ có giá trị IsSent = 0
-        /// </summary>
+        >
         public static void EnsureOldRecordsMarkedAsUnsent()
         {
             try
@@ -133,25 +123,20 @@ namespace Scanner
                 System.Diagnostics.Debug.WriteLine($"EnsureOldRecordsMarkedAsUnsent error: {ex.Message}");
             }
         }
-        /// <summary>
-        /// Gửi các bản ghi quét lên server qua HTTP POST (API server viết sau)
-        /// </summary>
-        /// <param name="serverUrl">Địa chỉ API server nhận dữ liệu</param>
-        /// <param name="limit">Số lượng bản ghi gửi (mặc định 1000)</param>
-        /// <returns>True nếu gửi thành công, False nếu lỗi</returns>
+        
         public static async System.Threading.Tasks.Task<bool> SendScansToServerAsync(string serverUrl, int limit = 1000)
         {
             try
             {
                 var records = GetUnsentScans(limit);
-                if (records.Count == 0) return true; // Không có bản ghi nào để gửi
+                if (records.Count == 0) return true; 
                 var json = System.Text.Json.JsonSerializer.Serialize(records);
                 using var client = new System.Net.Http.HttpClient();
                 var content = new System.Net.Http.StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(serverUrl, content);
                 if (response.IsSuccessStatusCode)
                 {
-                    // Đánh dấu các bản ghi đã gửi
+                   
                     MarkScansAsSent(records.ConvertAll(r => r.Id));
                 }
                 return response.IsSuccessStatusCode;
@@ -205,7 +190,7 @@ namespace Scanner
                 ";
                 createTableCmd.ExecuteNonQuery();
 
-                // Migration: Thêm trường IsSent vào database cũ nếu chưa có
+                
                 try
                 {
                     var checkColumnCmd = connection.CreateCommand();
@@ -319,7 +304,7 @@ namespace Scanner
                 using var connection = new SqliteConnection(ConnectionString);
                 connection.Open();
 
-                // Tạo pattern tìm kiếm cho định dạng dd/MM/yyyy
+                
                 var patterns = new List<string>();
                 for (var date = fromDate.Date; date <= toDate.Date; date = date.AddDays(1))
                 {
@@ -327,7 +312,7 @@ namespace Scanner
                 }
 
                 var selectCmd = connection.CreateCommand();
-                // Tạo query với multiple LIKE conditions
+                
                 var likeConditions = string.Join(" OR ", patterns.Select((_, i) => $"NgayGio LIKE @pattern{i}"));
                 
                 selectCmd.CommandText = $@"
@@ -493,8 +478,7 @@ namespace Scanner
                 connection.Open();
 
                 var selectCmd = connection.CreateCommand();
-                // Lọc theo định dạng dd/MM/yyyy (VN format)
-                // Pattern: __/01/2026 cho tháng 1 năm 2026
+                
                 selectCmd.CommandText = @"
                     SELECT Id, STT, Barcode, NgayGio, KetQua, Ca
                     FROM ScanRecords
@@ -537,6 +521,6 @@ namespace Scanner
         public string NgayGio { get; set; } = string.Empty;
         public string KetQua { get; set; } = string.Empty;
         public string Ca { get; set; } = string.Empty;
-        public int IsSent { get; set; } // 0: chưa gửi, 1: đã gửi
+        public int IsSent { get; set; }
     }
 }
